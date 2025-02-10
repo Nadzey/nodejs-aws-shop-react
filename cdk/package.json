@@ -8,6 +8,7 @@
     "build": "npm run build --prefix ../",
     "deploy": "npx cdk deploy",
     "invalidate": "aws cloudfront create-invalidation --distribution-id EJ7SBSW9LAVW1 --paths '/*'",
+    "destroy": "npx cdk destroy",
     "watch": "tsc -w",
     "test": "jest",
     "cdk": "cdk"
