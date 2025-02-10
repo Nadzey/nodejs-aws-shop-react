@@ -36,3 +36,8 @@ Runs tests in console, in browser or with coverage.
 ### `lint`, `prettier`
 
 Runs linting and formatting for all files in `src` folder.
+
+## 🔗 **Application Links**
+- **CloudFront URL**: [https://d378qtm8kfg8du.cloudfront.net/](https://d378qtm8kfg8du.cloudfront.net/)
+- **S3 Bucket URL**: [http://myshop-app-bucket.s3-website-us-east-1.amazonaws.com/](http://myshop-app-bucket.s3-website-us-east-1.amazonaws.com/) _(Expected 403 Access Denied)_
+

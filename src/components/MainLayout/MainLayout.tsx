@@ -31,13 +31,13 @@ const MainLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
         component={"footer"}
         sx={{ bgcolor: (theme) => theme.palette.background.paper, padding: 6 }}
       >
-        <Typography
+     <Typography
           variant="subtitle1"
           align="center"
-          color="textSecondary"
+          color="error"
           component="p"
         >
-          Thank you for your purchase!
+          Thank you for your purchase! 😊
         </Typography>
         <Copyright />
       </Box>
