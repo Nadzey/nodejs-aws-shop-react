@@ -41,3 +41,20 @@ Runs linting and formatting for all files in `src` folder.
 - **CloudFront URL**: [https://d378qtm8kfg8du.cloudfront.net/](https://d378qtm8kfg8du.cloudfront.net/)
 - **S3 Bucket URL**: [http://myshop-app-bucket.s3-website-us-east-1.amazonaws.com/](http://myshop-app-bucket.s3-website-us-east-1.amazonaws.com/) _(Expected 403 Access Denied)_
 
+## 📌 **How to Deploy the App Automatically**
+To build and deploy the application using AWS CDK, run the following commands:
+
+```sh
+cd cdk
+npx cdk deploy
+```
+### ✅  **How to Run deploy or destroy from the Root Directory?**
+## If you don’t want to enter the cdk directory every time, you can run the commands directly from the project root by adding --app:
+```sh
+npx cdk deploy --app cdk
+```
+```sh
+npx cdk destroy --app cdk
+```
+-💡 However, it's recommended to navigate into the cdk directory and work from there.
+
