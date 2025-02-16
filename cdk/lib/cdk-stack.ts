@@ -9,19 +9,16 @@ export class CdkStack extends cdk.Stack {
   constructor(scope: Construct, id: string, props?: cdk.StackProps) {
     super(scope, id, props);
 
-    // ✅ Создаем приватный S3 bucket (доступ только через CloudFront)
     const websiteBucket = new s3.Bucket(this, "WebsiteBucket", {
       bucketName: "myshop-app-bucket",
-      publicReadAccess: false,  // ❌ Отключаем публичный доступ
+      publicReadAccess: false,
       removalPolicy: cdk.RemovalPolicy.DESTROY,
       websiteIndexDocument: "index.html",
-      blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL, // ✅ Блокируем все публичные запросы
+      blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
     });
 
-    // ✅ Создаем Origin Access Identity (OAI) для CloudFront
     const originAccessIdentity = new cloudfront.OriginAccessIdentity(this, "OAI");
 
-    // ✅ Даем CloudFront доступ к S3
     websiteBucket.addToResourcePolicy(
       new iam.PolicyStatement({
         actions: ["s3:GetObject"],
@@ -30,28 +27,25 @@ export class CdkStack extends cdk.Stack {
       })
     );
 
-    // ✅ Создаем CloudFront Distribution
     const distribution = new cloudfront.CloudFrontWebDistribution(this, "MyShopCloudFront", {
       originConfigs: [
         {
           s3OriginSource: {
             s3BucketSource: websiteBucket,
-            originAccessIdentity: originAccessIdentity, // ✅ Доступ через OAI
+            originAccessIdentity: originAccessIdentity,
           },
           behaviors: [{ isDefaultBehavior: true }],
         },
       ],
     });
 
-    // ✅ Автоматическая загрузка файлов в S3
     new s3deploy.BucketDeployment(this, "DeployWebsite", {
-      sources: [s3deploy.Source.asset("../dist")], // Загружаем файлы из dist/
+      sources: [s3deploy.Source.asset("../dist")],
       destinationBucket: websiteBucket,
       distribution,
-      distributionPaths: ["/*"], // Очистка кеша CloudFront после загрузки
+      distributionPaths: ["/*"],
     });
 
-    // ✅ Выводим URL CloudFront
     new cdk.CfnOutput(this, "CloudFrontURL", {
       value: distribution.distributionDomainName,
       description: "CloudFront URL",
