@@ -7,7 +7,7 @@
   "scripts": {
     "build": "npm run build --prefix ../",
     "deploy": "npx cdk deploy",
-    "invalidate": "aws cloudfront create-invalidation --distribution-id EJ7SBSW9LAVW1 --paths '/*'",
+    "invalidate": "aws cloudfront create-invalidation --distribution-id E3SPZK8YQI5LX8 --paths '/*'",
     "destroy": "npx cdk destroy",
     "watch": "tsc -w",
     "test": "jest",

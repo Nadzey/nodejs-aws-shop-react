@@ -15,6 +15,7 @@ export class CdkStack extends cdk.Stack {
       removalPolicy: cdk.RemovalPolicy.DESTROY,
       websiteIndexDocument: "index.html",
       blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
+      autoDeleteObjects: true,
     });
 
     const originAccessIdentity = new cloudfront.OriginAccessIdentity(this, "OAI");
@@ -35,6 +36,18 @@ export class CdkStack extends cdk.Stack {
             originAccessIdentity: originAccessIdentity,
           },
           behaviors: [{ isDefaultBehavior: true }],
+        },
+      ],
+      errorConfigurations: [
+        {
+          errorCode: 403,
+          responseCode: 200,
+          responsePagePath: "/index.html",
+        },
+        {
+          errorCode: 404,
+          responseCode: 200,
+          responsePagePath: "/index.html",
         },
       ],
     });
