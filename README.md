@@ -38,7 +38,7 @@ Runs tests in console, in browser or with coverage.
 Runs linting and formatting for all files in `src` folder.
 
 ## 🔗 **Application Links**
-- **CloudFront URL**: [https://d378qtm8kfg8du.cloudfront.net/](https://d378qtm8kfg8du.cloudfront.net/)
+- **CloudFront URL**: [d38s95h75m6sx4.cloudfront.net](d38s95h75m6sx4.cloudfront.net)
 - **S3 Bucket URL**: [http://myshop-app-bucket.s3-website-us-east-1.amazonaws.com/](http://myshop-app-bucket.s3-website-us-east-1.amazonaws.com/) _(Expected 403 Access Denied)_
 
 ## 📌 **How to Deploy the App Automatically**
