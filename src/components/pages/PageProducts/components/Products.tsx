@@ -7,6 +7,7 @@ import Typography from "@mui/material/Typography";
 import { formatAsPrice } from "~/utils/utils";
 import AddProductToCart from "~/components/AddProductToCart/AddProductToCart";
 import { useAvailableProducts } from "~/queries/products";
+import defaultImage from "~/assets/default-cat.jpg";
 
 export default function Products() {
   const { data = [], isLoading } = useAvailableProducts();
@@ -17,22 +18,31 @@ export default function Products() {
 
   return (
     <Grid container spacing={4}>
-      {/* eslint-disable-next-line @typescript-eslint/no-unused-vars */}
-      {data.map(({ count, ...product }, index) => (
+      {data.map((product) => (
         <Grid item key={product.id} xs={12} sm={6} md={4}>
           <Card
-            sx={{ height: "100%", display: "flex", flexDirection: "column" }}
+            sx={{
+              height: "100%",
+              display: "flex",
+              flexDirection: "column",
+              boxShadow: 3,
+              borderRadius: 2,
+            }}
           >
             <CardMedia
-              sx={{ pt: "56.25%" }}
-              image={`https://source.unsplash.com/random?sig=${index}`}
-              title="Image title"
+              component="img"
+              height="200"
+              image={product.image || defaultImage}
+              alt={product.title}
+              sx={{ objectFit: "cover" }}
             />
             <CardContent sx={{ flexGrow: 1 }}>
               <Typography gutterBottom variant="h5" component="h2">
                 {product.title}
               </Typography>
-              <Typography>{formatAsPrice(product.price)}</Typography>
+              <Typography variant="body1" color="textSecondary">
+                {formatAsPrice(product.price)}
+              </Typography>
             </CardContent>
             <CardActions>
               <AddProductToCart product={product} />
