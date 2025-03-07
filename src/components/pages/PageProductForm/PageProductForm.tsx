@@ -13,7 +13,13 @@ import {
   useUpsertAvailableProduct,
 } from "~/queries/products";
 
-const initialValues: AvailableProduct = AvailableProductSchema.cast({});
+const initialValues: AvailableProduct = AvailableProductSchema.cast({
+  title: "",
+  description: "",
+  price: 0,
+  count: 0,
+  image: "",
+});
 
 export default function PageProductForm() {
   const navigate = useNavigate();
@@ -22,21 +28,30 @@ export default function PageProductForm() {
   const removeProductCache = useRemoveProductCache();
   const { data, isLoading } = useAvailableProduct(id);
   const { mutateAsync: upsertAvailableProduct } = useUpsertAvailableProduct();
-  const onSubmit = (values: AvailableProduct) => {
-    const formattedValues = AvailableProductSchema.cast(values);
-    const productToSave = id
-      ? {
-          ...formattedValues,
-          id,
-        }
-      : formattedValues;
-    return upsertAvailableProduct(productToSave, {
-      onSuccess: () => {
-        invalidateAvailableProducts();
-        removeProductCache(id);
-        navigate("/admin/products");
-      },
-    });
+
+  const onSubmit = async (values: AvailableProduct) => {
+    console.log("Submitting product:", values);
+
+    try {
+      const formattedValues = AvailableProductSchema.cast(values);
+      const productToSave = id ? { ...formattedValues, id } : formattedValues;
+
+      console.log("Sending API request with:", productToSave);
+
+      await upsertAvailableProduct(productToSave, {
+        onSuccess: () => {
+          console.log("Product saved successfully!");
+          invalidateAvailableProducts();
+          removeProductCache(id);
+          navigate("/admin/products");
+        },
+        onError: (error) => {
+          console.error("Error saving product:", error);
+        },
+      });
+    } catch (error) {
+      console.error("Submission error:", error);
+    }
   };
 
   return (
@@ -51,8 +66,9 @@ export default function PageProductForm() {
           initialValues={data ?? initialValues}
           validationSchema={AvailableProductSchema}
           onSubmit={onSubmit}
+          enableReinitialize
         >
-          {({ dirty, isSubmitting }: FormikProps<AvailableProduct>) => (
+          {({ dirty, isSubmitting, errors }: FormikProps<AvailableProduct>) => (
             <Form autoComplete="off">
               <Grid container spacing={2}>
                 <Grid item xs={12}>
@@ -84,6 +100,7 @@ export default function PageProductForm() {
                     fullWidth
                     autoComplete="off"
                     required
+                    type="number"
                   />
                 </Grid>
                 <Grid item xs={12} sm={4}>
@@ -94,6 +111,7 @@ export default function PageProductForm() {
                     fullWidth
                     autoComplete="off"
                     required
+                    type="number"
                   />
                 </Grid>
                 <Grid item container xs={12} justifyContent="space-between">
